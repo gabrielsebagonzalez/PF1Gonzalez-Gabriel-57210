@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>{{ editingStudent ? "Editando Alumno " + editingStudent.name : "Crear Alumno" }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="studentForm">
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
+      <input formControlName="name" matInput>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Apellido</mat-label>
+      <input formControlName="surname" matInput>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Curso</mat-label>
+      <input formControlName="course" matInput>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-dialog-close mat-button>Cancelar</button>
+  <button (click)="onSave()" mat-button>Guardar</button>
+</mat-dialog-actions>
+
