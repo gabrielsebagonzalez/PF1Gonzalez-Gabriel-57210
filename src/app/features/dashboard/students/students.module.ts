@@ -3,33 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import { StudentsRoutingModule } from './students-routing.module';
 import { StudentsComponent } from './students.component';
-import {MatIconModule} from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import {MatDialogModule} from '@angular/material/dialog';
 import { StudentDialogComponent } from './dialogs/student-dialog/student-dialog.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
-import {MatTableModule} from '@angular/material/table';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { StudentDetailComponent } from './pages/student-detail/student-detail.component';
+import { SharedModule } from '../../../shared/shared.module';
 
 @NgModule({
   declarations: [
     StudentsComponent,
-    StudentDialogComponent
+    StudentDialogComponent,
+    StudentDetailComponent,
   ],
   imports: [
     CommonModule,
     StudentsRoutingModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatTableModule,
-    MatTooltipModule
+    SharedModule,
   ],
-  exports: [StudentsComponent]
+  exports: [StudentsComponent],
 })
-export class StudentsModule { }
+export class StudentsModule {}
