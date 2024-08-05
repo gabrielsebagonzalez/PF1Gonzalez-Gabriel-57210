@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CourseDialogComponent } from './dialogs/course-dialog/course-dialog.component';
 import { take } from 'rxjs';
-import { ICourse } from '../../../../core/interfaces/course.interface';
-import { generateId } from '../../../../shared/utils';
-import { CoursesService } from '../../../../core/services/courses/courses.service';
+import { ICourse } from '../../../core/interfaces/course.interface';
+import { generateId } from '../../../shared/utils';
+import { CoursesService } from '../../../core/services/courses/courses.service';
+import { CourseDialogComponent } from './dialogs/course-dialog/course-dialog.component';
 
 const courseElements: ICourse[] = [];
 
