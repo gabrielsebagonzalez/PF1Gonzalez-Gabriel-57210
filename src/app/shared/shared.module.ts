@@ -14,9 +14,16 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
+
 
 @NgModule({
-  declarations: [],
+  declarations: [
+
+
+    SnackBarComponent
+  ],
   imports: [
     CommonModule
   ],
@@ -34,7 +41,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     MatTableModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatSnackBarModule
   ]
 })
 export class SharedModule { }

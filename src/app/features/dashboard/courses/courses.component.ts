@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { take } from 'rxjs';
+import { take} from 'rxjs';
 import { ICourse } from '../../../core/interfaces/course.interface';
-import { generateId } from '../../../shared/utils';
 import { CoursesService } from '../../../core/services/courses/courses.service';
 import { CourseDialogComponent } from './dialogs/course-dialog/course-dialog.component';
+import { SnackBarService } from '../../../core/services/snackBar/snack-bar.service';
 
 const courseElements: ICourse[] = [];
 
@@ -21,13 +21,14 @@ export class CoursesComponent implements OnInit {
     'endDate',
     'actions',
   ];
-  courseData = courseElements;
+  courseData: ICourse[] | undefined;
   nombreCurso: string = '';
   spinnerLoading: boolean = false;
 
   constructor(
     private matDialog: MatDialog,
-    private courseService: CoursesService
+    private courseService: CoursesService,
+    private snackBarService: SnackBarService
   ) {}
 
   ngOnInit(): void {
@@ -39,6 +40,10 @@ export class CoursesComponent implements OnInit {
     this.courseService.getCourses().subscribe({
       next: (res) => {
         this.courseData = res;
+      },
+      error: () => {
+        this.snackBarService.show('Ocurrió un error al cargar los cursos');
+        this.spinnerLoading = false;
       },
       complete: () => {
         this.spinnerLoading = false;
@@ -54,11 +59,10 @@ export class CoursesComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.nombreCurso = res.name;
-          res.id = generateId(5);
           this.spinnerLoading = true;
           this.courseService.addCourse(res).subscribe({
             next: (courses) => {
-              this.courseData = [...courses];
+              this.courseData = [...this.courseData, courses];
             },
             complete: () => {
               this.spinnerLoading = false;
@@ -69,11 +73,16 @@ export class CoursesComponent implements OnInit {
   }
 
   deleteCourseById(id: string) {
-    if (confirm('Está seguro que desea eliminar?')) {
+    if (confirm('¿Está seguro que desea eliminar?')) {
       this.spinnerLoading = true;
       this.courseService.deleteCourseById(id).subscribe({
-        next: (courses) => {
-          this.courseData = [...courses];
+        next: () => {
+          this.getCourses();
+        },
+        error: (err) => {
+          console.error('Error al eliminar el curso:', err);
+          this.snackBarService.show('Ocurrió un error al eliminar el curso');
+          this.spinnerLoading = false;
         },
         complete: () => {
           this.spinnerLoading = false;
@@ -88,15 +97,17 @@ export class CoursesComponent implements OnInit {
       .afterClosed()
       .subscribe({
         next: (value) => {
-          if (!!value) {
+          if (value) {
             this.courseService.editCourseById(editCourse.id, value).subscribe({
-              next: (course) => {
-                this.courseData = [...course]
-              }
-            })
-
+              next: (updatedCourse) => {
+                this.courseData = this.courseData.map((course) =>
+                  course.id === updatedCourse.id ? updatedCourse : course
+                );
+              },
+            });
           }
         },
       });
   }
+
 }
